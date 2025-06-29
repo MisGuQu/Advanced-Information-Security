@@ -76,20 +76,22 @@ pip install -r requirements.txt
   - Giao diện web nhập liệu và nhận kết quả.
 - **Cách chạy:**
 
-**Chuyển file .ui sang .py:**
+**1. Chuyển file .ui sang .py:**
 ```sh
 pyuic5 -x ./ui/caesar.ui -o ./ui/caesar.py
+# hoặc
+python -m PyQt5.uic.pyuic -x ./ui/caesar.ui -o ./ui/caesar.py
 ```
-**Lưu ý:**  
-Nếu gặp lỗi về plugin Qt, hãy thêm đoạn sau vào đầu file `caesar.py`:
+
+**2. Nếu gặp lỗi về plugin Qt, hãy thêm vào đầu file `caesar.py`:**
 ```python
 import os
 os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = "../platforms"
 ```
 
-**Chạy ứng dụng:**
+**3. Chạy ứng dụng:**
 
-- **Cách 1: Chạy API và script riêng**
+- **Cách 1: Chạy API và script riêng biệt**
   - Mở 2 terminal:
     - Terminal 1:
       ```sh
