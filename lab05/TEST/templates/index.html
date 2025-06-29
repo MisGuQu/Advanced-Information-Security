@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Thực hành An toàn thông tin nâng cao</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center align-items-center mb-4">
+            <div class="col-md-5 text-center">
+              <img
+                src="https://file1.hutech.edu.vn/file/editor/homepage/stories/hinh34/logo%20CMYK-01.png"
+                alt="hutech"
+                class="img-fluid"
+                style="max-width: 80%; height: auto"
+              />
+            </div>
+            <div class="col-md-5 text-center">
+              <img
+                src="{{ url_for('static', filename='encoded_image.png') }}"
+                alt="encoded"
+                class="img-fluid"
+                style="max-width: 80%; height: auto"
+              />
+            </div>
+          </div>
+
+        <h4 style="font-weight: bold; text-align: center;">BÀI KIỂM TRA KẾT THÚC MÔN HỌC : BMTTNC</h4>
+        <h5 style="font-weight: bold; text-align: center;">TRẦN ĐÀO PHƯƠNG NHI - 2280602235 GLHF!</h5>
+        <ul style="margin-top: 30px; text-align: center;">
+
+<div class="col-6 mx-auto mt-4">
+    <button id="caesar" class="btn btn-primary btn-lg shadow-sm rounded-pill w-100 mb-3">🔐 Mã hóa Caesar</button>
+    <button id="vigenere" class="btn btn-success btn-lg shadow-sm rounded-pill w-100 mb-3">🧩 Mã hóa Vigenere</button>
+    <button id="railfence" class="btn btn-warning btn-lg shadow-sm rounded-pill w-100 mb-3">🪜 Mã hóa RailFence</button>
+    <button id="playfair" class="btn btn-danger btn-lg shadow-sm rounded-pill w-100">📦 Mã hóa Playfair</button>
+</div>
+
+
+        </ul>
+    </div>
+
+    <script>
+        function sendRequest(command) {
+            fetch("http://localhost:5100/run_command", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body : JSON.stringify({command12: command}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert('Kết quả: ' + JSON.stringify(data));
+            })
+            .catch(error => {
+                console.error('Có lỗi xảy ra:', error);
+                alert('Có lỗi xảy ra khi thực thi lệnh.');
+            });
+        }
+
+        document.getElementById('caesar').addEventListener('click', function() {
+            sendRequest('caesar');
+        });
+
+        document.getElementById('vigenere').addEventListener('click', function() {
+            sendRequest('vigenere');
+        });
+
+        document.getElementById('railfence').addEventListener('click', function() {
+            sendRequest('railfence');
+        });
+
+        document.getElementById('playfair').addEventListener('click', function() {
+            sendRequest('playfair');
+        });
+    </script>
+</body>
+</html>
