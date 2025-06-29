@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caesar Cipher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #667eea;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        textarea, input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-encrypt {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-decrypt {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .alert {
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/" class="back-link">← Quay lại trang chính</a>
+            <h1>🔐 Caesar Cipher</h1>
+            <p>Thuật toán mã hóa thay thế đơn giản</p>
+        </div>
+
+        <form id="caesarForm">
+            <div class="form-group">
+                <label for="plainText">Văn bản gốc (Plain Text):</label>
+                <textarea id="plainText" name="plainText" placeholder="Nhập văn bản cần mã hóa..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="key">Khóa (Key):</label>
+                <input type="number" id="key" name="key" placeholder="Nhập số khóa (ví dụ: 3)" min="1" max="25">
+            </div>
+
+            <div class="form-group">
+                <label for="cipherText">Văn bản mã hóa (Cipher Text):</label>
+                <textarea id="cipherText" name="cipherText" placeholder="Nhập văn bản cần giải mã..."></textarea>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn btn-encrypt" onclick="encrypt()">🔒 Mã hóa</button>
+                <button type="button" class="btn btn-decrypt" onclick="decrypt()">🔓 Giải mã</button>
+            </div>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Đang xử lý...</p>
+        </div>
+
+        <div class="alert alert-success" id="successAlert"></div>
+        <div class="alert alert-error" id="errorAlert"></div>
+    </div>
+
+    <script>
+        function showAlert(message, type) {
+            const successAlert = document.getElementById('successAlert');
+            const errorAlert = document.getElementById('errorAlert');
+            
+            successAlert.style.display = 'none';
+            errorAlert.style.display = 'none';
+            
+            if (type === 'success') {
+                successAlert.textContent = message;
+                successAlert.style.display = 'block';
+            } else {
+                errorAlert.textContent = message;
+                errorAlert.style.display = 'block';
+            }
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'block' : 'none';
+        }
+
+        async function encrypt() {
+            const plainText = document.getElementById('plainText').value.trim();
+            const key = document.getElementById('key').value.trim();
+
+            if (!plainText) {
+                showAlert('Vui lòng nhập văn bản cần mã hóa!', 'error');
+                return;
+            }
+
+            if (!key) {
+                showAlert('Vui lòng nhập khóa!', 'error');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                const response = await fetch('/api/caesar/encrypt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        plain_text: plainText,
+                        key: parseInt(key)
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('cipherText').value = data.encrypted_message;
+                    showAlert('Mã hóa thành công!', 'success');
+                } else {
+                    showAlert(data.error || 'Có lỗi xảy ra khi mã hóa!', 'error');
+                }
+            } catch (error) {
+                showAlert('Lỗi kết nối! Vui lòng thử lại.', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function decrypt() {
+            const cipherText = document.getElementById('cipherText').value.trim();
+            const key = document.getElementById('key').value.trim();
+
+            if (!cipherText) {
+                showAlert('Vui lòng nhập văn bản cần giải mã!', 'error');
+                return;
+            }
+
+            if (!key) {
+                showAlert('Vui lòng nhập khóa!', 'error');
+                return;
+            }
+
+            showLoading(true);
+
+            try {
+                const response = await fetch('/api/caesar/decrypt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        cipher_text: cipherText,
+                        key: parseInt(key)
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('plainText').value = data.decrypted_message;
+                    showAlert('Giải mã thành công!', 'success');
+                } else {
+                    showAlert(data.error || 'Có lỗi xảy ra khi giải mã!', 'error');
+                }
+            } catch (error) {
+                showAlert('Lỗi kết nối! Vui lòng thử lại.', 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+    </script>
+</body>
+</html> 

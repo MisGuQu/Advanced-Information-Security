@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptography Lab - Trang chính</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .cipher-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .cipher-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 30px 20px;
+            border-radius: 15px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .cipher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .cipher-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .cipher-card p {
+            font-size: 0.9em;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        .caesar { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .playfair { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .railfence { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .vigenere { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+
+        .footer {
+            margin-top: 40px;
+            color: #666;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Cryptography Lab</h1>
+        <p class="subtitle">Chọn một thuật toán mã hóa để bắt đầu</p>
+        
+        <div class="cipher-grid">
+            <a href="/caesar" class="cipher-card caesar">
+                <h3>Caesar Cipher</h3>
+                <p>Thuật toán mã hóa thay thế đơn giản, dịch chuyển từng ký tự theo một khoảng cách cố định</p>
+            </a>
+            
+            <a href="/playfair" class="cipher-card playfair">
+                <h3>Playfair Cipher</h3>
+                <p>Thuật toán mã hóa dựa trên ma trận 5x5, mã hóa từng cặp ký tự</p>
+            </a>
+            
+            <a href="/railfence" class="cipher-card railfence">
+                <h3>Rail Fence Cipher</h3>
+                <p>Thuật toán mã hóa dựa trên việc sắp xếp lại các ký tự theo mô hình đường ray</p>
+            </a>
+            
+            <a href="/vigenere" class="cipher-card vigenere">
+                <h3>Vigenère Cipher</h3>
+                <p>Thuật toán mã hóa thay thế polyalphabetic, sử dụng từ khóa lặp lại</p>
+            </a>
+        </div>
+        
+        <div class="footer">
+            <p>BMTTNC - HUTECH - 2025</p>
+        </div>
+    </div>
+</body>
+</html> 
