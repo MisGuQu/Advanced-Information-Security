@@ -74,12 +74,37 @@ pip install -r requirements.txt
 - **Chức năng:**  
   - Cung cấp API RESTful cho từng thuật toán mã hóa/giải mã.
   - Giao diện web nhập liệu và nhận kết quả.
-- **Cách chạy:**  
+- **Cách chạy:**
+
+**Chuyển file .ui sang .py:**
+```sh
+pyuic5 -x ./ui/caesar.ui -o ./ui/caesar.py
+```
+**Lưu ý:**  
+Nếu gặp lỗi về plugin Qt, hãy thêm đoạn sau vào đầu file `caesar.py`:
+```python
+import os
+os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = "../platforms"
+```
+
+**Chạy ứng dụng:**
+
+- **Cách 1: Chạy API và script riêng**
+  - Mở 2 terminal:
+    - Terminal 1:
+      ```sh
+      cd lab02
+      python api.py
+      ```
+    - Terminal 2:
+      ```sh
+      python caesar_cipher.py
+      ```
+
+- **Cách 2: Chạy web app**
+  ```sh
+  python web_app.py
   ```
-  cd lab02
-  python app.py
-  ```
-  Truy cập: [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 - **Chi tiết thuật toán:**
   - **Caesar Cipher:** Dịch chuyển ký tự theo khóa số nguyên.
@@ -223,4 +248,4 @@ python -m PyQt5.uic.pyuic -x ./ui/caesar.ui -o ./ui/caesar.py
 ---
 
 ## Liên hệ
-Nếu có thắc mắc hoặc góp ý, vui lòng liên hệ qua email trường hoặc trực tiếp với tác giả.
+Nếu có thắc mắc hoặc góp ý, vui lòng liên hệ qua sách thực hành bảo mật thông tin nâng cao hoặc trực tiếp với tác giả.
